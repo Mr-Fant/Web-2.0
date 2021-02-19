@@ -1,0 +1,141 @@
+body{
+    color: #7690c4;
+    width: 1000px;
+    margin: auto;
+    font-family: Arial;
+}
+h1{
+    font-weight: normal;
+}
+h2{
+    font-weight: normal;
+    font-size: 30px;
+}
+h3{
+    font-size: 25px;
+}
+.weather_block .content .left h3{
+    font-weight: bold;
+    font-size: 30px;
+}
+button {
+  color: white;
+}
+.weather_block .head button{
+    border: none;
+    color: white;
+    height: 40px;
+    background-color: #91b4fa;
+    padding: 10px 40px;
+    border-radius: 4px;
+}
+.weather_block .head div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ul{
+    padding: 0;
+}
+.weather_block .head{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.weather_block .content .left_content img{
+    width: 100px;
+}
+.weather_block .content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+    grid-column-gap: 100px;
+}
+.weather_block .content .left{
+    grid-area: left;
+}
+.weather_block .content .right{
+    grid-area: right;
+}
+.weather_block .content .left_content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.weather_block .content .left_content .left_right{
+    color: gray;
+    font-size: 75px;
+}
+.current_info{
+    list-style-type: none;
+    padding: 0;
+}
+.current_info li{
+    display: flex;
+    background-color: #848da1;
+    color: white;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    padding: 5px 10px;
+}
+.favorites_block .head{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "left right";
+    grid-column-gap: 100px;
+    align-items: center;
+}
+.favorites_block .head .right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.favorites_block .content .block_header{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr;
+    align-items: center;
+    grid-column-gap: 50px;
+}
+.favorites_block .content .block_header img{
+    width: 50px;
+}
+.favorites_block .content .block_header .degree{
+    color: gray;
+    font-size: 35px;
+}
+.favorites_block .content li{
+    list-style-type: none;
+}
+.favorites_block .content .table{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 100px;
+    grid-row-gap: 20px;
+}
+.favorites_block .content .block_header button{
+    padding: 0;
+    border-radius: 100px;
+    background-color: #67789c;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+
+}
+.favorites_block .head .right input{
+    background-color: #d6d6d6;
+    margin-right: 25px;
+    padding: 15px;
+    border: none;
+}
+.favorites_block .head .right button{
+    padding: 0;
+    border-radius: 100px;
+    background-color: #67789c;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border: none;
+}
+.favorites_block .content .block_header div{
+    display: flex;
+    justify-content: flex-end;
+}
