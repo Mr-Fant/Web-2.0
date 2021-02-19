@@ -1,8 +1,14 @@
+* {
+    box-sizing: border-box;
+}
+
 body{
     color: #7690c4;
-    width: 1000px;
-    margin: auto;
-    font-family: Arial;
+    max-width: 1000px;
+    min-width: 300px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    padding: 10px;
 }
 h1{
     font-weight: normal;
@@ -124,6 +130,7 @@ ul{
     background-color: #d6d6d6;
     margin-right: 25px;
     padding: 15px;
+    width: 60%;
     border: none;
 }
 .favorites_block .head .right button{
@@ -138,4 +145,26 @@ ul{
 .favorites_block .content .block_header div{
     display: flex;
     justify-content: flex-end;
+}
+
+.mobile {
+    display: none;
+}
+@media only screen and (max-width: 910px) {
+    .desktop {
+        display: none;
+    }
+    .mobile {
+        display: initial;
+    }
+    .weather_block .content, .favorites_block .content .table, .favorites_block .head{
+        display: block;
+    }
+    .favorites_block .content .block_header{
+        grid-column-gap: 3px;
+    }
+    .favorites_block .head .right input{
+        width: initial;
+        flex-grow: 1;
+    }
 }
