@@ -146,6 +146,12 @@ ul{
     display: flex;
     justify-content: flex-end;
 }
+li span:nth-child(1){
+    margin-right: 10px;
+}
+li span:nth-child(2){
+    text-align: right;
+}
 
 .mobile {
     display: none;
