@@ -20,7 +20,7 @@ h2{
 h3{
     font-size: 25px;
 }
-.weather_block .content .left h3{
+.weather_block .content .left h2{
     font-weight: bold;
     font-size: 30px;
 }
@@ -156,7 +156,7 @@ li span:nth-child(2){
 .mobile {
     display: none;
 }
-@media only screen and (max-width: 920px) {
+@media only screen and (max-width: 910px) {
     .desktop {
         display: none;
     }
@@ -172,5 +172,9 @@ li span:nth-child(2){
     .favorites_block .head .right input{
         width: initial;
         flex-grow: 1;
+    }
+    .weather_block .head {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
 }
