@@ -9,30 +9,13 @@
     <div class="block weather_block">
         <div class="head">
             <h1>Погода здесь</h1>
-            <div>
+            <div class="update_button">
                 <button class="desktop">Обновить геолокацию</button>
                 <button class="mobile"><img src="https://img.icons8.com/ios-filled/16/process.png"></button>
             </div>
         </div>
-        <div class="content">
-            <div class="left">
-                <h2>Saint-Petersburg</h2>
-                <div class="left_content">
-                    <div class="left_left">
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                    </div>
-                    <div class="left_right">8°C</div>
-                </div>
-            </div>
-            <div class="right">
-                <ul class="current_info">
-                    <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                    <li><span>Облачность</span> <span>Broken clouds</span></li>
-                    <li><span>Давление</span> <span>1013 hpa</span></li>
-                    <li><span>Влажность</span> <span>52 %</span></li>
-                    <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                </ul>
-            </div>
+        <div class="content" id="current_weather_info">
+            загрузка
         </div>
     </div>
     <div class="block favorites_block">
@@ -40,117 +23,18 @@
             <div class="left">
                 <h2>Избранное</h2>
             </div>
-            <div class="right">
-                <input placeholder="Добавить новый город">
+            <form class="right" id="new_city_form">
+                <input placeholder="Добавить новый город" id="new_city_form_input">
                 <button>+</button>
-            </div>
+            </form>
         </div>
         <div class="content">
-            <ul class="table">
-                <li>
-                    <div class="block_header">
-                        <h3>Moscow</h3>
-                        <div class="degree">5°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="block_header">
-                        <h3>Helsinki</h3>
-                        <div class="degree">3°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="block_header">
-                        <h3>Moscow</h3>
-                        <div class="degree">5°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="block_header">
-                        <h3>Helsinki</h3>
-                        <div class="degree">3°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
-                </li>
-                <li>
-                    <div class="block_header">
-                        <h3>Moscow</h3>
-                        <div class="degree">5°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
+            <ul class="table" id="favorites_list">
 
-                <li>
-                    <div class="block_header">
-                        <h3>Helsinki</h3>
-                        <div class="degree">3°C</div>
-                        <img src="https://png.pngtree.com/png-clipart/20190520/original/pngtree-mbe-weather-icon-ray-weatherminelovelydecoration-png-image_4048298.jpg">
-                        <div>
-                            <button>x</button>
-                        </div>
-                    </div>
-                    <ul class="current_info">
-                        <li><span>Ветер</span> <span>Moderate breeze, 6.0 m/s, North-northwest</span></li>
-                        <li><span>Облачность</span> <span>Broken clouds</span></li>
-                        <li><span>Давление</span> <span>1013 hpa</span></li>
-                        <li><span>Влажность</span> <span>52 %</span></li>
-                        <li><span>Координаты</span> <span>[59.88, 30.42]</span></li>
-                    </ul>
-                </li>
             </ul>
         </div>
     </div>
+
+    <script src="script.js" type="application/javascript"></script>
 </body>
 </html>
