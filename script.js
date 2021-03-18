@@ -12,7 +12,7 @@ function getCurrentPosition(fn) {
             fn([location.coords.latitude, location.coords.longitude])
         },
         function () {
-            alert("Что-то пошло не так")
+            alert("Доступ к геопозиции запрещен")
             fn(defaultPos)
         }
     )
@@ -31,6 +31,9 @@ function getWeatherJsonFromCoordinates(lat, lon, fn) {
             })
         }
     )
+        .catch(function (q) {
+            fn(null, false)
+        })
 }
 
 function getWeatherJsonFromName(name, fn) {
@@ -74,20 +77,26 @@ function weatherIconUrl(info) {
 function updateCurrentLocation() {
     getCurrentPosition(function (loc) {
         getWeatherJsonFromCoordinates(loc[0], loc[1], function (info, status) {
-            document.getElementById("current_weather_info").innerHTML = `
-        <div class="left">
-            <h2>`+info['name']+`</h2>
-            <div class="left_content">
-                <div class="left_left">
-                    <img src="`+weatherIconUrl(info)+`">
+            if (status) {
+                document.getElementById("current_weather_info").innerHTML = `
+                <div class="left">
+                    <h2>`+info['name']+`</h2>
+                    <div class="left_content">
+                        <div class="left_left">
+                            <img src="`+weatherIconUrl(info)+`">
+                        </div>
+                        <div class="left_right">`+info["main"]["temp"]+`°C</div>
+                    </div>
                 </div>
-                <div class="left_right">`+info["main"]["temp"]+`°C</div>
-            </div>
-        </div>
-        <div class="right">
-            `+createList(info)+`
-        </div>
-        `
+                <div class="right">
+                    `+createList(info)+`
+                </div>
+                `
+            }
+            else {
+                document.getElementById("current_weather_info").innerHTML = 'Ошибка'
+            }
+
         })
     })
 }
@@ -116,10 +125,11 @@ function createCityInList(info) {
 
 function createCityInListLoading(info) {
     return `
-    <li>
+    <li data-tmp="`+info["id"]+`">
         <div class="block_header" >
             <h3>` + info["name"] + `</h3>
             <div class="degree"></div>
+            <div></div>
             <div>
                 <button class="delete-button" city-id="`+info["id"]+`">x</button>
             </div>
@@ -132,9 +142,10 @@ function createCityInListLoading(info) {
 function deleteB() {
     let w = document.getElementsByClassName("delete-button");
     for (let i = 0; i < w.length; i++) {
-        w.item(i).addEventListener("click", function () {
-            w.item(i).parentElement.parentElement.parentElement.remove()
-            localStorage.removeItem(w.item(i).getAttribute("city-id"))
+        let wi = w.item(i)
+        wi.addEventListener("click", function () {
+            wi.parentElement.parentElement.parentElement.remove()
+            localStorage.removeItem(wi.getAttribute("city-id"))
         })
     }
 }
@@ -154,7 +165,15 @@ document.getElementById("new_city_form").onsubmit = function () {
         return false
     }
 
+    let infoT = {
+        name: city,
+        id: Math.random()
+    }
+
+    document.getElementById("favorites_list").insertAdjacentHTML("afterbegin", createCityInListLoading(infoT))
+
     getWeatherJsonFromName(city, function (info, status) {
+        document.querySelectorAll('[data-tmp="'+infoT["id"]+'"]')[0].remove()
         if (status) {
             if (info["cod"] !== 200) {
                 alert("Произошла ошибка "+info["message"])
