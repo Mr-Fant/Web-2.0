@@ -19,55 +19,29 @@ function getCurrentPosition(fn) {
 }
 
 function getWeatherJsonFromCoordinates(lat, lon, fn) {
-    fetch("https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&units=metric&appid=9c267e6baa6acb2b0131fb15ee8200bb").then(
-        t => {
-            t.json().then(function(b) {
-                try {
-                    fn(b, true)
-                }
-                catch (e) {
-                    fn(null, false)
-                }
-            })
-        }
-    )
-        .catch(function (q) {
-            fn(null, false)
-        })
+    fetch("http://localhost:666/cord?lat=" + lat + "&lon=" + lon)
+        .then(res => res.json())
+        .then(res => fn(res[0], res[1]))
+        .catch(e => fn(null, false))
 }
 
 function getWeatherJsonFromName(name, fn) {
-    try {
-        fetch("https://api.openweathermap.org/data/2.5/weather?q="+name+"&units=metric&appid=9c267e6baa6acb2b0131fb15ee8200bb").then(
-            t => {
-                t.json().then(function(b) {
-                    try {
-                        fn(b, true)
-                    }
-                    catch (e) {
-                        fn(null, false)
-                    }
-                })
-            }
-        )
-            .catch(t => fn(null, false))
-    }
-    catch (e) {
-        fn(null, false)
-    }
-
+    fetch("http://localhost:666/city?name=" + name)
+        .then(res => res.json())
+        .then(res => fn(res[0], res[1]))
+        .catch(e => fn(null, false))
 }
 
 function createList(info) {
-    return `
-    <ul class="current_info">
-        <li><span>Тип погоды</span> <span>`+info["weather"][0]["main"]+`</span></li>
-        <li><span>Давление</span> <span>`+info["main"]["pressure"]+`</span></li>
-        <li><span>Видимость</span> <span>`+info["visibility"]+`</span></li>
-        <li><span>Облачность</span> <span>`+info["clouds"]["all"]+`</span></li>
-        <li><span>Влажность</span> <span>`+info["main"]["humidity"]+`</span></li>
-    </ul>
-    `
+    let t = document.querySelector('#createList').cloneNode(true)
+    let list = t.content.querySelectorAll('span')
+    // console.log(list)
+    list[1].textContent = `${info["weather"][0]["main"]}`
+    list[3].textContent = `${info["main"]["pressure"]}`
+    list[5].textContent = `${info["visibility"]}`
+    list[7].textContent = `${info["clouds"]["all"]}`
+    list[9].textContent = `${info["main"]["humidity"]}`
+    return document.importNode(t.content, true)
 }
 
 function weatherIconUrl(info) {
@@ -78,20 +52,14 @@ function updateCurrentLocation() {
     getCurrentPosition(function (loc) {
         getWeatherJsonFromCoordinates(loc[0], loc[1], function (info, status) {
             if (status) {
-                document.getElementById("current_weather_info").innerHTML = `
-                <div class="left">
-                    <h2>`+info['name']+`</h2>
-                    <div class="left_content">
-                        <div class="left_left">
-                            <img src="`+weatherIconUrl(info)+`">
-                        </div>
-                        <div class="left_right">`+info["main"]["temp"]+`°C</div>
-                    </div>
-                </div>
-                <div class="right">
-                    `+createList(info)+`
-                </div>
-                `
+                let t = document.querySelector('#updateCurrentLocation').cloneNode(true)
+                t.content.querySelector('h2').textContent = `${info['name']}`
+                t.content.querySelector('img').setAttribute('src', `${weatherIconUrl(info)}`)
+                t.content.querySelector('.left_right').textContent = `${info["main"]["temp"]}` + '°C'
+                t.content.querySelector('.right').append(createList(info))
+                document.getElementById("current_weather_info").innerHTML = ''
+                document.getElementById("current_weather_info").append(document.importNode(t.content, true))
+
             }
             else {
                 document.getElementById("current_weather_info").innerHTML = 'Ошибка'
@@ -108,49 +76,36 @@ document.querySelector(".update_button button").addEventListener("click",functio
 })
 
 function createCityInList(info) {
-    return `
-    <li>
-        <div class="block_header">
-            <h3>` + info["name"] + `</h3>
-            <div class="degree">` + info["main"]["temp"] + `°C</div>
-            <img src="` + weatherIconUrl(info) + `">
-            <div>
-                <button class="delete-button" city-id="`+info["id"]+`">x</button>
-            </div>
-        </div>
-        ` + createList(info) + `
-    </li>
-    `
+    let t = document.querySelector('#createCityInList').cloneNode(true)
+    t.content.querySelector('h3').textContent = ` ${info["name"]}`
+    t.content.querySelector('.degree').textContent = `${info["main"]["temp"]}` + '°C'
+    t.content.querySelector('img').setAttribute('src', `${weatherIconUrl(info)}`)
+    t.content.querySelector('button').setAttribute('city-id', `${info["id"]}`)
+    t.content.querySelector('li').append(createList(info))
+    return document.importNode(t.content, true)
 }
 
 function createCityInListLoading(info) {
-    return `
-    <li data-tmp="`+info["id"]+`">
-        <div class="block_header" >
-            <h3>` + info["name"] + `</h3>
-            <div class="degree"></div>
-            <div></div>
-            <div>
-                <button class="delete-button" city-id="`+info["id"]+`">x</button>
-            </div>
-        </div>
-        Загрузка
-    </li>
-    `
+    let t = document.querySelector('#createCityInListLoading').cloneNode(true)
+    t.content.querySelector('li').setAttribute('data-tmp',`${info["id"]}`)
+    t.content.querySelector('h3').textContent = ` ${info["name"]}`
+    t.content.querySelector('button').setAttribute('city-id', `${info["id"]}`)
+    return document.importNode(t.content, true)
 }
-
 function deleteB() {
     let w = document.getElementsByClassName("delete-button");
     for (let i = 0; i < w.length; i++) {
         let wi = w.item(i)
         wi.addEventListener("click", function () {
             wi.parentElement.parentElement.parentElement.remove()
-            localStorage.removeItem(wi.getAttribute("city-id"))
+            fetch(`http://localhost:666/removeItem?id=${wi.getAttribute("city-id")}`)
+            //localStorage.removeItem(wi.getAttribute("city-id"))
         })
     }
 }
 
-document.getElementById("new_city_form").onsubmit = function () {
+document.getElementById("new_city_form").onsubmit = function (e) {
+    e.preventDefault()
     let cityInput = document.getElementById("new_city_form_input")
     let city = cityInput.value
     cityInput.value = ""
@@ -170,55 +125,64 @@ document.getElementById("new_city_form").onsubmit = function () {
         id: Math.random()
     }
 
-    document.getElementById("favorites_list").insertAdjacentHTML("afterbegin", createCityInListLoading(infoT))
+    document.getElementById("favorites_list").prepend(createCityInListLoading(infoT))
 
     getWeatherJsonFromName(city, function (info, status) {
         document.querySelectorAll('[data-tmp="'+infoT["id"]+'"]')[0].remove()
-        if (status) {
-            if (info["cod"] !== 200) {
-                alert("Произошла ошибка "+info["message"])
-            }
-            else if (localStorage.getItem(info["id"]) !== null) {
-                alert("Сорян город уже добавлен "+localStorage.getItem(info["id"]))
-            }
-            else {
-                document.getElementById("favorites_list").insertAdjacentHTML("afterbegin", createCityInList(info))
-                deleteB()
-                localStorage.setItem(info["id"], info["name"])
-            }
-        }
-        else {
-            alert("Произошла ошибка")
-        }
+        fetch('http://localhost:666/getInfo')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (status) {
+                    if (info["cod"] !== 200) {
+                        alert("Произошла ошибка "+info["message"])
+                    }
+                    else if (data[(info["id"])]) {
+                        alert("Сорян город уже добавлен " + data[info["id"]])
+                    }
+                    else {
+                        document.getElementById("favorites_list").prepend(createCityInList(info))
+                        deleteB()
+                        fetch(`http://localhost:666/setInfo?id=${info.id}&name=${info.name}`)
+                    }
+                }
+                else {
+                    alert("Произошла ошибка")
+                }
+            })
     })
 
     return false
 }
 
-for (let i = 0; i < localStorage.length; i++){
-    let key = localStorage.key(i)
-    let value = localStorage.getItem(key)
-    let info = {
-        name: value,
-        id: key
-    }
-
-    document.getElementById("favorites_list").insertAdjacentHTML("afterbegin", createCityInListLoading(info))
-
-    getWeatherJsonFromName(value, function (info, status) {
-        document.querySelectorAll('[city-id="'+key+'"]')[0].parentElement.parentElement.parentElement.remove()
-        if (status) {
-            if (info["cod"] !== 200) {
-                alert("Произошла ошибка "+info["message"])
+fetch('http://localhost:666/getInfo') 
+    .then(res => res.json())
+    .then(data => {
+        for (let i = 0; i < Object.keys(data).length; i++){
+            let key = Object.keys(data)[i]
+            let value = data[key]
+            let info = {
+                name: value,
+                id: key
             }
-            else {
-                document.getElementById("favorites_list").insertAdjacentHTML("afterbegin", createCityInList(info))
-                deleteB()
-                localStorage.setItem(info["id"], info["name"])
-            }
-        }
-        else {
-            alert("Произошла ошибка")
+        
+            document.getElementById("favorites_list").prepend(createCityInListLoading(info))
+        
+            getWeatherJsonFromName(value, function (info, status) {
+                document.querySelectorAll('[city-id="'+key+'"]')[0].parentElement.parentElement.parentElement.remove()
+                if (status) {
+                    if (info["cod"] !== 200) {
+                        alert("Произошла ошибка "+info["message"])
+                    }
+                    else {
+                        document.getElementById("favorites_list").prepend(createCityInList(info))
+                        deleteB()
+                        fetch(`http://localhost:666/setInfo?id=${info.id}&name=${info.name}`)
+                    }
+                }
+                else {
+                    alert("Произошла ошибка")
+                }
+            })
         }
     })
-}
