@@ -34,7 +34,58 @@
             </ul>
         </div>
     </div>
+    <template id="createList">
+        <ul class="current_info">
+            <li><span>Тип погоды</span> <span></span></li>
+            <li><span>Давление</span> <span></span></li>
+            <li><span>Видимость</span> <span></span></li>
+            <li><span>Облачность</span> <span></span></li>
+            <li><span>Влажность</span> <span></span></li>
+        </ul>
+    </template>
 
+    <template id="updateCurrentLocation">
+        <div class="left">
+            <h2></h2>
+            <div class="left_content">
+                <div class="left_left">
+                    <img src="">
+                </div>
+                <div class="left_right"></div>
+            </div>
+        </div>
+        <div class="right">
+
+        </div>
+    </template>
+
+    <template id="createCityInList">
+        <li>
+            <div class="block_header">
+                <h3></h3>
+                <div class="degree"></div>
+                <img src="">
+                <div>
+                    <button class="delete-button" city-id="">x</button>
+                </div>
+            </div>
+
+        </li>
+    </template>
+
+    <template id="createCityInListLoading">
+        <li data-tmp="">
+        <div class="block_header" >
+            <h3></h3>
+            <div class="degree"></div>
+            <div></div>
+            <div>
+                <button class="delete-button" city-id="">x</button>
+            </div>
+        </div>
+        Загрузка
+        </li>
+    </template>
     <script src="script.js" type="application/javascript"></script>
 </body>
 </html>
