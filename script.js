@@ -115,6 +115,10 @@ document.getElementById("new_city_form").onsubmit = function (e) {
         return false
     }
 
+    if(!window.navigator.onLine){
+        alert("Ошибка интернет соеденения")
+    }
+
     if (city.toLowerCase() === "чита" || city.toLowerCase() === "chita") {
         alert("Ошибка: слишком токсичный город")
         return false
@@ -186,3 +190,4 @@ fetch('http://localhost:666/getInfo')
             })
         }
     })
+
